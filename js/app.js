@@ -22,8 +22,10 @@
  * Define Global Variables
  *
  */
+const header = document.querySelector("header");
 const sections = document.querySelectorAll("section");
 const navbar = document.querySelector("#navbar__list");
+const topBtn = document.querySelector(".top__btn");
 /**
  * End Global Variables
  * Start Helper Functions
@@ -38,6 +40,14 @@ function scrollToSection(top, left) {
   });
 }
 
+function scrollToTop() {
+  window.scrollTo({
+    behavior: "smooth",
+    top: 0,
+    left: 0,
+  });
+}
+
 /**
  * End Helper Functions
  */
@@ -46,12 +56,46 @@ function scrollToSection(top, left) {
 sections.forEach((section) => {
   let navbarItemHTML = `
     <li>
-    <a href="#${section.id}" class="menu__link">${section.dataset.nav}</a>
+    <a href="${section.id}" class="${section.id} menu__link">${section.dataset.nav}</a>
     </li>
     `;
 
   navbar.insertAdjacentHTML("beforeend", navbarItemHTML);
 });
+
+// Check if mouse is over navbar, dont hide otherwise hide it
+// I'm just worried about using 2 separate event listeners for this, is it fine performance wise? also I think
+// the scroll event listener is too expensive or is it?
+header.addEventListener("mouseenter", () => {
+  header.style.opacity = 1;
+});
+
+header.addEventListener("mouseleave", () => {
+  // check if we are at the top of the page, no need to hide
+  if (document.body.scrollTop === 0) {
+    header.style.opacity = 1;
+  } else {
+    header.style.opacity = 0;
+  }
+});
+
+// if user stopped scrolling, hide the navbar && add scroll to top functionality
+document.addEventListener("scroll", () => {
+  header.style.opacity = 1;
+
+  setTimeout(() => {
+    if (document.body.scrollTop <= 100) {
+      header.style.opacity = 1;
+      topBtn.setAttribute("style", "visibility: hidden; opacity: 0;");
+    } else {
+      header.style.opacity = 0;
+      topBtn.setAttribute("style", "visibility: visible; opacity: 1;");
+    }
+  }, 500);
+});
+
+// scroll to top when top button is clicked
+topBtn.addEventListener("click", scrollToTop);
 
 // Select all links AFTER they have been generated
 const navLinks = document.querySelectorAll(".menu__link");
@@ -69,7 +113,7 @@ navLinks.forEach((link) => {
     );
 
     // Get the current selected section's coordinates (top and left) as top is the most important
-    const sectionCoord = currentSection.getBoundingClientRect();
+    const sectionCoords = currentSection.getBoundingClientRect();
 
     // check if the selected section has the active class or not, if no, then add it
     // and remove all other active classes
@@ -82,7 +126,7 @@ navLinks.forEach((link) => {
     });
 
     // Invoke the scroll to the section helper function
-    scrollToSection(sectionCoord.top, sectionCoord.left);
+    scrollToSection(sectionCoords.top, sectionCoords.left);
 
     // Same as adding the active class to a section, it adds the same hover effects
     // to the active section giving more visual feedback

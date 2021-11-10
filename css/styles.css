@@ -104,6 +104,7 @@ section {
   top: 0;
   width: 100%;
   z-index: 5;
+  transition: all 0.4s;
 }
 
 /* Footer Styles */
@@ -239,4 +240,20 @@ section.section__active .landing__container::after {
   to {
     transform: rotate(360deg) translate(-1em) rotate(-360deg);
   }
+}
+
+.top__btn {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  padding: 15px;
+  border: none;
+  outline: none;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s;
 }
