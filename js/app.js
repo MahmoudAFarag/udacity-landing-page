@@ -1,24 +1,4 @@
 /**
- *
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- *
- * Dependencies: None
- *
- * JS Version: ES2015/ES6
- *
- * JS Standard: ESlint
- *
- */
-
-/**
- * Comments should be present at the beginning of each procedure and class.
- * Great to have comments before crucial code sections within the procedure.
- */
-
-/**
  * Define Global Variables
  *
  */
@@ -51,7 +31,6 @@ function scrollToTop() {
 const activeSectionObeserver = (enteries) => {
   const [entry] = enteries;
   const navitem = document.querySelector(`.${entry.target.id}`);
-  console.log(entry);
 
   if (entry.isIntersecting) {
     navitem.classList.add("active__link");
@@ -92,7 +71,7 @@ header.addEventListener("mouseleave", () => {
   }
 });
 
-// if user stopped scrolling, hide the navbar && add scroll to top functionality
+// if user stopped scrolling, hide the navbar && add scroll to top styles
 document.addEventListener("scroll", () => {
   header.style.opacity = 1;
 
@@ -131,34 +110,13 @@ navLinks.forEach((link) => {
      Dynamically select the equivalent section by comparing the textContect of the clicked link 
      to the ID of the corresponding section and converting it to lowercase
   */
-    const currentSection = document.querySelector(
-      `#${e.target.textContent.replace(" ", "").toLowerCase()}`
-    );
+    const linkClass = e.target.className.split(" ")[0];
+    const currentSection = document.querySelector(`#${linkClass}`);
 
     // Get the current selected section's coordinates (top and left) as top is the most important
     const sectionCoords = currentSection.getBoundingClientRect();
 
-    // check if the selected section has the active class or not, if no, then add it
-    // and remove all other active classes
-    sections.forEach((section) => {
-      if (section === currentSection) {
-        section.classList.add("section__active");
-      } else {
-        section.classList.remove("section__active");
-      }
-    });
-
     // Invoke the scroll to the section helper function
     scrollToSection(sectionCoords.top, sectionCoords.left);
-
-    // Same as adding the active class to a section, it adds the same hover effects
-    // to the active section giving more visual feedback
-    navLinks.forEach((navLink) => {
-      if (navLink === e.target) {
-        navLink.classList.add("active__link");
-      } else {
-        navLink.classList.remove("active__link");
-      }
-    });
   });
 });
