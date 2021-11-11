@@ -48,6 +48,19 @@ function scrollToTop() {
   });
 }
 
+const activeSectionObeserver = (enteries) => {
+  const [entry] = enteries;
+  const navitem = document.querySelector(`.${entry.target.id}`);
+  console.log(entry);
+
+  if (entry.isIntersecting) {
+    navitem.classList.add("active__link");
+    entry.target.classList.add("section__active");
+  } else {
+    entry.target.classList.remove("section__active");
+    navitem.classList.remove("active__link");
+  }
+};
 /**
  * End Helper Functions
  */
@@ -92,6 +105,16 @@ document.addEventListener("scroll", () => {
       topBtn.setAttribute("style", "visibility: visible; opacity: 1;");
     }
   }, 500);
+});
+
+// TEST intersection api
+const sectionsObserver = new IntersectionObserver(activeSectionObeserver, {
+  root: null,
+  threshold: 0.7,
+});
+
+sections.forEach((section) => {
+  sectionsObserver.observe(section);
 });
 
 // scroll to top when top button is clicked
