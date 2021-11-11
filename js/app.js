@@ -29,6 +29,7 @@ function scrollToTop() {
 }
 
 const activeSectionObeserver = (enteries) => {
+  // destructure to get the current intersecting entery instead of the array of sections
   const [entry] = enteries;
   const navitem = document.querySelector(`.${entry.target.id}`);
 
@@ -89,7 +90,7 @@ document.addEventListener("scroll", () => {
 // TEST intersection api
 const sectionsObserver = new IntersectionObserver(activeSectionObeserver, {
   root: null,
-  threshold: 0.7,
+  threshold: 0.55,
 });
 
 sections.forEach((section) => {
