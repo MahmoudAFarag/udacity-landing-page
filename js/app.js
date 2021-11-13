@@ -87,7 +87,7 @@ document.addEventListener("scroll", () => {
   }, 500);
 });
 
-// TEST intersection api
+// Initializing observer instance for sections
 const sectionsObserver = new IntersectionObserver(activeSectionObeserver, {
   root: null,
   threshold: 0.55,
